@@ -60,7 +60,6 @@ def generate(source:str, destination:str=None, validate:bool=False):
         print(fileBytesToVariables(contents))
 
         for index1, byteValue1 in enumerate(contents):
-            # print(f"File Written {int(ceil(index1/len(contents) * 100))}%\r", end="")
             for index2, byteValue2 in enumerate(contents):
                 if index1 == index2:
                     continue
@@ -88,7 +87,6 @@ def generate(source:str, destination:str=None, validate:bool=False):
         status = s.check()
         print(f"SAT Status: {status}")
         if status == sat:
-            # solve_using(s, [variables[i] == contents[i] for i in range(len(contents))])
             print("SAT Problem Validated" if [s.model().eval(variables[i]) for i in range(len(contents))] == contents else "SAT Problem Invalidated")
 
 
@@ -99,7 +97,6 @@ def reconstruct(source: str, destination: str):
     counter = 0
     with open(source) as f:
         initializeVariables = True
-        c = 0
         lines = f.readlines()
         variables = []
         for line in lines:
@@ -109,9 +106,6 @@ def reconstruct(source: str, destination: str):
                 if initializeVariables:
                     initializeVariables = False
                     variables = [Int(f'byte{i}') for i in range(counter)]
-                # print(line)
-                # line = '(assert (and (< byte0 byte10) (= (+ byte0 byte10) 177) (= (* byte0 byte10) 7452) (= (- byte10 byte0) 39)))'
-                c += 1
 
 
                 operations = [int(token.strip(')')) for token in line.split() if token.strip(')').isdigit()]
@@ -119,17 +113,11 @@ def reconstruct(source: str, destination: str):
                 subProblem = re.findall(r'\(([^)]+)\)', line)[-1][5:].split(" ")
                 first = int(subProblem[0][4:])
                 second = int(subProblem[1][4:])
-                
-                # Equality problem 
-                # print(f"Operations: {operations}")
-                # while line.find("-)")
+
                 s.add(variables[first] + variables[second] == operations[0],
                       variables[first] * variables[second] == operations[1],
                       variables[first] - variables[second] == operations[2])
-                # print(line.find(')'))
-                # print(line)
-                # break
-        # print(s)
+  
     s.check()
     if destination != None:
         with open(destination, "w") as f:
