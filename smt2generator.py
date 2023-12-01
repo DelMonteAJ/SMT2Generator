@@ -1,6 +1,6 @@
 from SMT2gUtils.makes import *
 from SMT2gUtils.setup import *
-from SMT2gUtils.condensers import *
+# from SMT2gUtils.condensers import *
 import argparse
 from math import ceil
 

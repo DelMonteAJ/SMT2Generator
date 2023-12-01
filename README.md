@@ -2,6 +2,12 @@
 
 ## A Proof-of-Concept of SMT2-based File Validation and Reconstruction
 
+## Prerequisites Installation
+```
+pip install -r requirements.txt
+```
+
+
 ## How to Run
 ### SMT2 Generation
 #### The following command will print the SMT2 problem to stdout using the input as hex bytes as a model. 
